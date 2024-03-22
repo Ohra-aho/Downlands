@@ -1,6 +1,6 @@
-# harjoittelua_1
+# Downlands
 
-A new Flutter project.
+Mobilegame for flutter practice.
 
 ## Getting Started
 
