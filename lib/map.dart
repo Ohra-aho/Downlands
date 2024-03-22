@@ -37,7 +37,7 @@ class _GridState extends State<Grid> {
     return  Expanded( 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [for(var i = 0; i < 5; i++) GridRow(column: i)],
+                  children: [for(var i = 1; i < 6; i++) GridRow(column: i)],
                 ),
               );
   }
@@ -55,10 +55,9 @@ class GridRow extends StatefulWidget {
 class _GridRowState extends State<GridRow> {
   late int column;
   final logger = Logger();
-  Entity? RenderSquare(List<Entity> list, int index) {
+  Entity? RenderSquare(List<Entity> list, int x, int y) {
     for(Entity e in list) {
-      if(e.index == index) {
-        logger.d(e.index);
+      if(e.x == x && e.y == y) {
         return e;
       }
     }
@@ -84,7 +83,7 @@ class _GridRowState extends State<GridRow> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for(var i = 1; i < 6; i++) Square(index: i+column*5, occupant: RenderSquare(entities, i+column*5))
+                  for(var i = 1; i < 6; i++) Square(x: i, y: column, occupant: RenderSquare(entities, i, column))
                 ],
       );});
     }
@@ -93,24 +92,25 @@ class _GridRowState extends State<GridRow> {
 
 
 class Square extends StatefulWidget {
-  final int index;
+  final int x;
+  final int y;
   final Entity? occupant;
-  const Square({Key? key, required this.index, this.occupant}) : super(key: key);
+  const Square({Key? key, required this.x, required this.y, this.occupant}) : super(key: key);
 
   @override
   _SquareState createState() => _SquareState();
 }
 
 class _SquareState extends State<Square> {
-  late int index;
+  late int x;
+  late int y;
   late Icon icon;
   late Entity? occupant;
   late Widget? occupantSprite;
   final logger = Logger();
 
   Widget? displayOccupant() {
-    logger.d("Index: $index Occupant: ${occupant?.index}");
-      if(occupant != null && occupant?.index == index) {
+      if(occupant != null && occupant?.x == x && occupant?.y == y)  {
         occupantSprite = occupant?.sprite;
         return occupantSprite;
       }
@@ -124,14 +124,16 @@ class _SquareState extends State<Square> {
   void initState() {
     super.initState();
     icon = Icon(Icons.border_outer);
-    index = widget.index;
+    x = widget.x;
+    y = widget.y;
     occupant = widget.occupant;
   }
 
   @override
   Widget build(BuildContext context) { 
     icon = Icon(Icons.border_outer);
-    index = widget.index;
+    x = widget.x;
+    y = widget.y;
     occupant = widget.occupant;
     return (
       Container(child: displayOccupant(),)

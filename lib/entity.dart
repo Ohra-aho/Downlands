@@ -6,7 +6,9 @@ import 'package:flutter/widgets.dart';
 
 class Entity {
   Widget sprite;
-  int index;
+  int x;
+  int y;
 
-  Entity(this.sprite, this.index);
+
+  Entity(this.sprite, this.x, this.y);
 }

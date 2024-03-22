@@ -16,12 +16,14 @@ class PlayerSprite extends StatefulWidget {
 
 class _PlayerSprite extends State<PlayerSprite> {
   late Icon sprite;
-  late int index;
+  late int x;
+  late int y;
 
   @override
   void initState() {
     sprite = Icon(Icons.accessibility);
-    index = player.index;
+    x = player.x;
+    y = player.y;
   }
 
   @override
@@ -35,18 +37,19 @@ class _PlayerSprite extends State<PlayerSprite> {
 
 class PlayerData implements Entity  {
   @override
-  int index = 23;
+  int x = 3;
+  @override
+  int y = 5;
   @override
   Widget sprite = PlayerSprite();
 
   final logger = Logger();
 
-  void changePosition(int newIndex) {
-    index += newIndex;
+  void changePosition(int newX, int newY) {
+    x += newX;
+    y += newY;
   }
-  int getIndex() {
-    return index;
-  }
+  
 
   
 }

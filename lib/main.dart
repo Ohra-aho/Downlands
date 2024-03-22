@@ -64,7 +64,7 @@ class _ControlState extends State<Control> {
       child: Column(children: [
           ElevatedButton(
             onPressed: () => {
-              player.changePosition(-5),
+              player.changePosition(0, -1),
               visibleEs.Update()
             },
           child: const Icon(Icons.arrow_upward),
@@ -74,21 +74,21 @@ class _ControlState extends State<Control> {
           children: [
             ElevatedButton(
             onPressed: () => {
-              player.changePosition(-1),
+              player.changePosition(-1, 0),
               visibleEs.Update()
               },
             child: Icon(Icons.arrow_back)
             ),
             ElevatedButton(
             onPressed: () => {
-              player.changePosition(5),
+              player.changePosition(0, 1),
               visibleEs.Update()
               },
             child: Icon(Icons.arrow_downward)
             ),
             ElevatedButton(
             onPressed: () => {
-              player.changePosition(1),
+              player.changePosition(1, 0),
               visibleEs.Update()
               },
             child: Icon(Icons.arrow_forward)
