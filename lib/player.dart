@@ -36,6 +36,7 @@ class _PlayerSprite extends State<PlayerSprite> {
 
 
 class PlayerData implements Entity  {
+  //Player coordinates on the map
   @override
   int x = 3;
   @override
@@ -43,6 +44,8 @@ class PlayerData implements Entity  {
   @override
   Widget sprite = PlayerSprite();
 
+  //Each step consumes one stamina
+  int stamina = 10;
   final logger = Logger();
 
   void changePosition(int newX, int newY) {

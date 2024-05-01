@@ -9,6 +9,5 @@ class Entity {
   int x;
   int y;
 
-
   Entity(this.sprite, this.x, this.y);
 }

@@ -54,7 +54,6 @@ class GridRow extends StatefulWidget {
 
 class _GridRowState extends State<GridRow> {
   late int column;
-  final logger = Logger();
   Entity? RenderSquare(List<Entity> list, int x, int y) {
     for(Entity e in list) {
       if(e.x == x && e.y == y) {
