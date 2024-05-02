@@ -1,9 +1,12 @@
 
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:downlands/map.dart';
 import 'package:downlands/player.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:downlands/entity.dart';
 
@@ -20,7 +23,10 @@ class _ControlState extends State<Control> {
 
     return Container(
       color: Colors.grey,
-      child: Row(children: [Arrows()],)
+      child: const Row(children: [
+        BarHolder(health: 100, stamina: 200),
+        Arrows()
+        ],)
      );
   }
 }
@@ -31,7 +37,9 @@ class Arrows extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return 
-      const Column(children: [
+      SizedBox( 
+        width: MediaQuery.of(context).size.width * 0.33,
+        child: const Column(children: [
         ArrowButton(x: 0, y: -1, direction: "up"),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,50 +49,34 @@ class Arrows extends StatelessWidget {
             ArrowButton(x: 1, y: 0, direction: "forward")
           ],
         )
-     ],);
+     ],)
+     );
   }
 }
 
-class ArrowButton extends StatefulWidget {
+class ArrowButton extends StatelessWidget{
+
   final int x;
-  final int y; 
+  final int y;
   final String direction;
 
-  const ArrowButton({Key? key, 
-  required this.x, 
-  required this.y, 
-  required this.direction}) : super(key: key);
-
-  @override
-  _ArrowButtonState createState() => _ArrowButtonState();
-}
-
-class _ArrowButtonState extends State<ArrowButton> {
-
-  late int x;
-  late int y;
-  late String direction;
+  const ArrowButton({
+    super.key, 
+    required this.x, 
+    required this.y, 
+    required this.direction
+    });
 
   Icon determineIcon() {
     Icon temp;
     switch(direction) {
-        case "up" : temp = Icon(Icons.arrow_upward);
-        case "down" : temp = Icon(Icons.arrow_downward);
-        case "back" : temp = Icon(Icons.arrow_back);
-        case "forward" : temp = Icon(Icons.arrow_forward);
-        default: temp = Icon(Icons.arrow_upward);
+        case "up" : temp = const Icon(Icons.arrow_upward);
+        case "down" : temp = const Icon(Icons.arrow_downward);
+        case "back" : temp = const Icon(Icons.arrow_back);
+        case "forward" : temp = const Icon(Icons.arrow_forward);
+        default: temp = const Icon(Icons.arrow_upward);
       }
-
     return temp;
-    
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    x = widget.x;
-    y = widget.y;
-    direction = widget.direction;
   }
 
   @override
@@ -96,6 +88,99 @@ class _ArrowButtonState extends State<ArrowButton> {
               },
             child: determineIcon()
           );
+  }
+}
+
+class BarHolder extends StatefulWidget {
+  final double health;
+  final double stamina;
+
+  const BarHolder({
+    super.key,
+    required this.health,
+    required this.stamina
+  });
+
+  @override
+  _Barholder createState() => _Barholder();
+}
+
+class _Barholder extends State<BarHolder> {
+  late double health;
+  late double stamina;
+
+  @override
+  void initState() {
+    super.initState();
+    health = widget.health;
+    stamina = widget.stamina;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.33,
+      child: Column(
+        children: [
+          StatusBar(value: health, color: Colors.red), 
+          StatusBar(value: stamina, color: Colors.green)
+          ],
+      ),
+    );
+  }
+}
+
+class StatusBar extends StatefulWidget {
+  final double value;
+  final Color color;
+
+  const StatusBar({
+    super.key,
+    required this.value,
+    required this.color
+  });
+
+  @override
+  _StatusBar createState() => _StatusBar();
+}
+
+class _StatusBar extends State<StatusBar> {
+  late double value;
+  late Color color;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.value;
+    color = widget.color;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //Barbackground
+    return Container(
+      width: 200,
+      height: 20,
+      padding: const EdgeInsets.all(2),
+      color: Colors.black,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 1,
+            minHeight: 20,
+            maxWidth: 200,
+            maxHeight: 20
+          ),
+          child: Container(
+            color: color,
+            width: value,
+            height: 20,
+          ),
+        ),
+      ),
+    );
+    
   }
 }
 
